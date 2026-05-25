@@ -16,7 +16,7 @@ public class PagamentoController {
     private static final String json = "application/json";
     private final PagamentoService pagamentoService;
 
-    @PostMapping(produces = json)
+    @PostMapping(produces = json, consumes = json)
     @ResponseStatus(HttpStatus.CREATED)
     public PagamentoDTO paga(@PathVariable UUID idOrdine, @RequestBody CreaPagamentoDTO pagamentoDaCreare) {
         return pagamentoService.paga(idOrdine, pagamentoDaCreare);
