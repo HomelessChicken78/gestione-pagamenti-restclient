@@ -1,5 +1,6 @@
 package it.itsacademy.gestionepagamentirestclient.service;
 
+import it.itsacademy.gestionepagamentirestclient.dto.CreaPagamentoDTO;
 import it.itsacademy.gestionepagamentirestclient.dto.PagamentoDTO;
 import it.itsacademy.gestionepagamentirestclient.exception.PaymentRequiredException;
 import it.itsacademy.gestionepagamentirestclient.mapper.PagamentoMapper;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service @Transactional(noRollbackFor = PaymentRequiredException.class) // Con questo il motore di persistenza non fà il rollback quando questa eccezione è lanciata
 @RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
@@ -16,8 +19,10 @@ public class PagamentoServiceImpl implements PagamentoService {
     private final RepositoryPagamento repositoryPagamento;
 
     @Override
-    public PagamentoDTO paga() {
+    public PagamentoDTO paga(UUID idOrdine, CreaPagamentoDTO pagamentoDaCreare) {
         Pagamento nuovoPagamento = new Pagamento();
+        nuovoPagamento.setIdOrdine(idOrdine);
+        nuovoPagamento.setTotale(pagamentoDaCreare.getTotale());
 
         Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
 
