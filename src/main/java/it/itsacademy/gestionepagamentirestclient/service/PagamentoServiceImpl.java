@@ -1,14 +1,15 @@
 package it.itsacademy.gestionepagamentirestclient.service;
 
 import it.itsacademy.gestionepagamentirestclient.dto.PagamentoDTO;
+import it.itsacademy.gestionepagamentirestclient.exception.PaymentRequiredException;
 import it.itsacademy.gestionepagamentirestclient.mapper.PagamentoMapper;
 import it.itsacademy.gestionepagamentirestclient.model.Pagamento;
 import it.itsacademy.gestionepagamentirestclient.repository.RepositoryPagamento;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service @Transactional
+@Service @Transactional(noRollbackFor = PaymentRequiredException.class) // Con questo il motore di persistenza non fà il rollback quando questa eccezione è lanciata
 @RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
     private final PagamentoMapper mapper;
@@ -18,13 +19,17 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoDTO paga() {
         Pagamento nuovoPagamento = new Pagamento();
 
+        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
+
         // Decidi randomicamente se viene accettato o rifiutato
         if (Math.random() < 0.5)
-            nuovoPagamento.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
-        else
-            nuovoPagamento.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
+            salvato.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
+        else {
+            salvato.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
 
-        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
+            // Notare: grazie a noRollbackFor, non viene effettuato rollback e quindi il pagamento viene comunque salvato
+            throw new PaymentRequiredException("Pagamento fallito.");
+        }
 
         return mapper.toDTO(salvato);
     }
