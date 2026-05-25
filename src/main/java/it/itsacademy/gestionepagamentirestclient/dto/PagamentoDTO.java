@@ -12,7 +12,7 @@ public class PagamentoDTO {
     private UUID idPagamento;
 
     private UUID idOrdine;
-    private Double totale;
+    private Double totale = 0.0;
     private LocalDate dataPagamento = LocalDate.now();
     private StatoPagamento statoPagamento;
 

@@ -15,10 +15,11 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id private UUID idPagamento;
 
-    private UUID idOrdine;
-    private Double totale;
-    private LocalDate dataPagamento = LocalDate.now();
-    private StatoPagamento statoPagamento;
+    @Column(nullable = false) private UUID idOrdine;
+
+    @Column(nullable = false) private Double totale = 0.0;
+    @Column(nullable = false) private LocalDate dataPagamento = LocalDate.now();
+    @Column(nullable = false) private StatoPagamento statoPagamento;
 
     public enum StatoPagamento {
         RIFIUTATO, ACCETTATO
