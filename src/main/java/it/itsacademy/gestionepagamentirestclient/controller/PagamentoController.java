@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/{idOrdine}/pagamenti")
+@RequestMapping("/pagamenti/{idOrdine}")
 @RequiredArgsConstructor
 public class PagamentoController {
     private static final String json = "application/json";
