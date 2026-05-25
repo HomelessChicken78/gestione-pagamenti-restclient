@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor @NoArgsConstructor
 public class Pagamento {
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Id private UUID idOrdine;
+    @Id private UUID idPagamento;
 
     private StatoPagamento statoPagamento;
 
