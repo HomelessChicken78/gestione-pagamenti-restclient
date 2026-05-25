@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pagamenti")
 @RequiredArgsConstructor
 public class PagamentoController {
-    private static final String JSON = "application/json";
+    private static final String json = "application/json";
     private final PagamentoService pagamentoService;
 
-    @PostMapping(consumes = JSON, produces = JSON)
+    @PostMapping(produces = json)
     @ResponseStatus(HttpStatus.CREATED)
     public PagamentoDTO paga() {
         return pagamentoService.paga();
