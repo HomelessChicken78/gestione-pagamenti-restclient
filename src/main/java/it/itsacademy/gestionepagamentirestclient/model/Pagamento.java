@@ -19,7 +19,7 @@ public class Pagamento {
 
     @Column(nullable = false) private Double totale = 0.0;
     @Column(nullable = false) private LocalDate dataPagamento = LocalDate.now();
-    @Column(nullable = false) private StatoPagamento statoPagamento;
+    @Column(nullable = false) private StatoPagamento statoPagamento = StatoPagamento.RIFIUTATO;
 
     public enum StatoPagamento {
         RIFIUTATO, ACCETTATO
