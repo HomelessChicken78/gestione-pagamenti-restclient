@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -20,5 +21,10 @@ public class PagamentoController {
     @ResponseStatus(HttpStatus.CREATED)
     public PagamentoDTO paga(@PathVariable UUID idOrdine, @RequestBody CreaPagamentoDTO pagamentoDaCreare) {
         return pagamentoService.paga(idOrdine, pagamentoDaCreare);
+    }
+
+    @GetMapping(produces = json)
+    public Collection<PagamentoDTO> listaPagamenti(@PathVariable UUID idOrdine) {
+        return pagamentoService.listaPagamenti(idOrdine);
     }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service @Transactional(noRollbackFor = PaymentRequiredException.class) // Con questo il motore di persistenza non fà il rollback quando questa eccezione è lanciata
@@ -37,5 +39,10 @@ public class PagamentoServiceImpl implements PagamentoService {
         }
 
         return mapper.toDTO(salvato);
+    }
+
+    @Override
+    public Collection<PagamentoDTO> listaPagamenti(UUID idOrdine) {
+        return mapper.toDTO(repositoryPagamento.findByIdOrdine(idOrdine));
     }
 }
