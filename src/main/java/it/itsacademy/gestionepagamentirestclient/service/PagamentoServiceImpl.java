@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.UUID;
 
-@Service @Transactional(noRollbackFor = PaymentRequiredException.class) // Con questo il motore di persistenza non fà il rollback quando questa eccezione è lanciata
+@Service @Transactional
 @RequiredArgsConstructor
 public class PagamentoServiceImpl implements PagamentoService {
     private final PagamentoMapper mapper;
@@ -33,8 +33,9 @@ public class PagamentoServiceImpl implements PagamentoService {
         else {
             salvato.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
 
-            // Notare: grazie a noRollbackFor, non viene effettuato rollback e quindi il pagamento viene comunque salvato
-            throw new PaymentRequiredException("Pagamento fallito.");
+            // Notare: A differenza di http dove possiamo ritornare uno status code dopo una eccezione,
+            // con AMQ, il listener dopo un'eccezione pensa che c'è stato un problema e prova a reinviare il messaggio
+            // nella queue causando un ciclo infinito (l'eccezione rimane sempre)
         }
 
         return mapper.toDTO(salvato);
