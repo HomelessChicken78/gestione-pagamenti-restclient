@@ -1,6 +1,7 @@
 package it.itsacademy.gestionepagamentirestclient.messaging;
 
 import it.itsacademy.gestionepagamentirestclient.dto.CreaPagamentoDTO;
+import it.itsacademy.gestionepagamentirestclient.dto.PagamentoDTO;
 import it.itsacademy.gestionepagamentirestclient.mapper.PagamentoMapper;
 import it.itsacademy.gestionepagamentirestclient.service.PagamentoService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,12 @@ public class PagatoreOrdini {
     @RabbitListener(queues = "payments.order.queue")
     public void riceviRichiestaPagamento(CreaPagamentoDTO pagamentoRichiesto) {
         // Passi il DTO intero al service
-        pagamentoService.paga(pagamentoRichiesto);
+        PagamentoDTO esito = pagamentoService.paga(pagamentoRichiesto);
+
+        // Se il pagamento è andato a buon fine la routing key sarà payments.accettato, altrimenti sarà payments.rifiutato.
+        // L'exchange si occuperà di inviarlo nella queue corretta.
+        rabbitTemplate.convertAndSend("orders.exchange",
+                "payments." + esito.getStatoPagamento().name().toLowerCase(),
+                esito.getIdOrdine()); // Invia solo l'id dell'ordine a cui è stato effettuato il pagamento
     }
 }
