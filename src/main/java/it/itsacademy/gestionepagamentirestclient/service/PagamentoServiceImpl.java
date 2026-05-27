@@ -40,7 +40,6 @@ public class PagamentoServiceImpl implements PagamentoService {
         return mapper.toDTO(salvato);
     }
 
-
     @Override
     public Collection<PagamentoDTO> listaPagamenti(UUID idOrdine) {
         return mapper.toDTO(repositoryPagamento.findByIdOrdine(idOrdine));
