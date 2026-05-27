@@ -24,7 +24,7 @@ public class PagatoreOrdini {
 
         // Se il pagamento è andato a buon fine la routing key sarà payments.accettato, altrimenti sarà payments.rifiutato.
         // L'exchange si occuperà di inviarlo nella queue corretta.
-        rabbitTemplate.convertAndSend("orders.exchange",
+        rabbitTemplate.convertAndSend("payments.exchange",
                 "payments." + esito.getStatoPagamento().name().toLowerCase(),
                 esito.getIdOrdine()); // Invia solo l'id dell'ordine a cui è stato effettuato il pagamento
     }
