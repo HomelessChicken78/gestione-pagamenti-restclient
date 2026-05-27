@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Service @Transactional(noRollbackFor = PaymentRequiredException.class) // Con questo il motore di persistenza non fà il rollback quando questa eccezione è lanciata
@@ -19,6 +18,28 @@ import java.util.UUID;
 public class PagamentoServiceImpl implements PagamentoService {
     private final PagamentoMapper mapper;
     private final RepositoryPagamento repositoryPagamento;
+
+    @Override
+    public PagamentoDTO paga(CreaPagamentoDTO pagamentoDaCreare) {
+        Pagamento nuovoPagamento = new Pagamento();
+        nuovoPagamento.setIdOrdine(pagamentoDaCreare.getIdOrdine());
+        nuovoPagamento.setTotale(pagamentoDaCreare.getTotale());
+
+        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
+
+        // Decidi randomicamente se viene accettato o rifiutato
+        if (Math.random() < 0.5)
+            salvato.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
+        else {
+            salvato.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
+
+            // Notare: grazie a noRollbackFor, non viene effettuato rollback e quindi il pagamento viene comunque salvato
+            throw new PaymentRequiredException("Pagamento fallito.");
+        }
+
+        return mapper.toDTO(salvato);
+    }
+
 
     @Override
     public Collection<PagamentoDTO> listaPagamenti(UUID idOrdine) {
