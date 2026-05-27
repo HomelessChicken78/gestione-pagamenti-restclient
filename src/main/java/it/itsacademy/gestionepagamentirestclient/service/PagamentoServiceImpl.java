@@ -21,27 +21,6 @@ public class PagamentoServiceImpl implements PagamentoService {
     private final RepositoryPagamento repositoryPagamento;
 
     @Override
-    public PagamentoDTO paga(UUID idOrdine, CreaPagamentoDTO pagamentoDaCreare) {
-        Pagamento nuovoPagamento = new Pagamento();
-        nuovoPagamento.setIdOrdine(idOrdine);
-        nuovoPagamento.setTotale(pagamentoDaCreare.getTotale());
-
-        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
-
-        // Decidi randomicamente se viene accettato o rifiutato
-        if (Math.random() < 0.5)
-            salvato.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
-        else {
-            salvato.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
-
-            // Notare: grazie a noRollbackFor, non viene effettuato rollback e quindi il pagamento viene comunque salvato
-            throw new PaymentRequiredException("Pagamento fallito.");
-        }
-
-        return mapper.toDTO(salvato);
-    }
-
-    @Override
     public Collection<PagamentoDTO> listaPagamenti(UUID idOrdine) {
         return mapper.toDTO(repositoryPagamento.findByIdOrdine(idOrdine));
     }
