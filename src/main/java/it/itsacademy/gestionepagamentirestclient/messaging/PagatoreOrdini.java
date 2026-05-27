@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class PagatoreOrdini {
     private final PagamentoService pagamentoService;
     private final RabbitTemplate rabbitTemplate;
-    private final PagamentoMapper mapper;
 
     // RabbitListener serve a dire: aspetta un messaggio da questa coda. Quando arriva esegui questo metodo
     @RabbitListener(queues = "payments.order.queue")
