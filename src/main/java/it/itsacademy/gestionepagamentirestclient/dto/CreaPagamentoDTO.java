@@ -9,5 +9,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor @NoArgsConstructor
 public class CreaPagamentoDTO {
+    private UUID idOrdine;
     private Double totale;
 }
