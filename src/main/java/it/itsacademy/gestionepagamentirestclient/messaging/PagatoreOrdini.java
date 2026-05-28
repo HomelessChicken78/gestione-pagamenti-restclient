@@ -2,7 +2,6 @@ package it.itsacademy.gestionepagamentirestclient.messaging;
 
 import it.itsacademy.gestionepagamentirestclient.dto.CreaPagamentoDTO;
 import it.itsacademy.gestionepagamentirestclient.dto.PagamentoDTO;
-import it.itsacademy.gestionepagamentirestclient.mapper.PagamentoMapper;
 import it.itsacademy.gestionepagamentirestclient.service.PagamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
