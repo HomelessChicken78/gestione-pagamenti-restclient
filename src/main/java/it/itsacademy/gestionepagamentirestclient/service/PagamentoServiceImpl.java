@@ -25,18 +25,18 @@ public class PagamentoServiceImpl implements PagamentoService {
         nuovoPagamento.setIdOrdine(pagamentoDaCreare.getIdOrdine());
         nuovoPagamento.setTotale(pagamentoDaCreare.getTotale());
 
-        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
-
         // Decidi randomicamente se viene accettato o rifiutato
         if (Math.random() < 0.5)
-            salvato.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
+            nuovoPagamento.setStatoPagamento(Pagamento.StatoPagamento.ACCETTATO);
         else {
-            salvato.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
+            nuovoPagamento.setStatoPagamento(Pagamento.StatoPagamento.RIFIUTATO);
 
             // Notare: A differenza di http dove possiamo ritornare uno status code dopo una eccezione,
             // con AMQ, il listener dopo un'eccezione pensa che c'è stato un problema e prova a reinviare il messaggio
             // nella queue causando un ciclo infinito (l'eccezione rimane sempre)
         }
+
+        Pagamento salvato = repositoryPagamento.save(nuovoPagamento);
 
         return mapper.toDTO(salvato);
     }
