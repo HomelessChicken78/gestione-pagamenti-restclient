@@ -1,6 +1,5 @@
 package it.itsacademy.gestionepagamentirestclient.dto;
 
-import it.itsacademy.gestionepagamentirestclient.model.Pagamento;
 import lombok.*;
 
 import java.time.LocalDate;
