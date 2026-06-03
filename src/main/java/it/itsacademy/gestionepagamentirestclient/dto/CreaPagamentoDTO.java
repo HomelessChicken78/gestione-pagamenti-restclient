@@ -2,7 +2,6 @@ package it.itsacademy.gestionepagamentirestclient.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
