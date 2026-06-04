@@ -21,4 +21,7 @@ public class PagamentoController {
     public Collection<PagamentoDTO> listaPagamenti(@PathVariable UUID idOrdine) {
         return pagamentoService.listaPagamenti(idOrdine);
     }
+
+    @GetMapping(path = "/health")
+    public void health() {}
 }
