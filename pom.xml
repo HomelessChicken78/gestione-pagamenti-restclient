@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>it.itsacademy</groupId>
-    <artifactId>gestione-ordini-restclient</artifactId>
+    <artifactId>gestione-pagamenti-restclient</artifactId>
     <version>0.0.3</version>
-    <name>gestione-ordini-restclient</name>
-    <description>gestione-ordini-restclient</description>
+    <name>gestione-pagamenti-restclient</name>
+    <description>gestione-pagamenti-restclient</description>
     <url/>
     <licenses>
         <license/>
